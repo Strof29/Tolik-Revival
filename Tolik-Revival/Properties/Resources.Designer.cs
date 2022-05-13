@@ -63,6 +63,26 @@ namespace Tolik_Revival.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap bullet {
+            get {
+                object obj = ResourceManager.GetObject("bullet", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap enemy_bullet {
+            get {
+                object obj = ResourceManager.GetObject("enemy_bullet", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ground {
             get {
                 object obj = ResourceManager.GetObject("ground", resourceCulture);
@@ -76,6 +96,16 @@ namespace Tolik_Revival.Properties {
         internal static System.Drawing.Bitmap Tolik {
             get {
                 object obj = ResourceManager.GetObject("Tolik", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tolik_terr {
+            get {
+                object obj = ResourceManager.GetObject("tolik_terr", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
