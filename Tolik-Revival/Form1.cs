@@ -12,6 +12,31 @@ namespace Tolik_Revival
 {
     public partial class GameForm : Form
     {
+        void Bullets()
+        {
+            PictureBox bullet1 = new PictureBox();
+
+            bullet.Left += 20;
+            if (bullet.Left > player.Left + 400)
+            {
+                bullet.Left = player.Left;
+                bullet.Top = player.Top + 10;
+                bullet.Image = Properties.Resources.bullet;
+            }
+        }
+
+        void enemy_Bullets()
+        {
+            PictureBox bullet1 = new PictureBox();
+
+            enemy_bullet.Left += 10;
+            if (enemy_bullet.Left > enemy.Left - 400)
+            {
+                enemy_bullet.Left = enemy.Left;
+                enemy_bullet.Top = enemy.Top + 8;
+                enemy_bullet.Image = Properties.Resources.enemy_bullet;
+            }
+        }
         public GameForm()
         {
             InitializeComponent();
@@ -35,6 +60,28 @@ namespace Tolik_Revival
 
             foreach (Control x in this.Controls)
             {
+                int rnd_Top = 623 - rnd.Next(1, 4) * 150;
+                int rnd_Left = rnd.Next(1200, 3000);
+                int rnd_w = rnd.Next(100, 300);
+                if (x is PictureBox && x.Tag == "enemy")
+                {
+                    if (right == true && player.Left > 800)
+                    {
+                        x.Left -= 15;
+
+                        if (x.Left < -200)
+                        {
+                            x.Top = rnd_Top - 70;
+                            x.Left = rnd_Left;
+                            x.Width = 70;
+                            x.Height = 70;
+
+                        }
+
+                    }
+
+                }
+
                 if (x is PictureBox && x.Tag == "base")
                 {
                     if (player.Bounds.IntersectsWith(x.Bounds))
@@ -48,9 +95,10 @@ namespace Tolik_Revival
 
                         if (x.Left < -200)
                         {
-                            x.Top = 623 - rnd.Next(1, 4) * 150;
-                            x.Left = rnd.Next(1200, 3000);
-                            x.Width = rnd.Next(100, 300);
+
+                            x.Top = rnd_Top;
+                            x.Left = rnd_Left;
+                            x.Width = rnd_w;
                         }
 
                     }
@@ -80,6 +128,12 @@ namespace Tolik_Revival
         {
             Player_move();
             Base_move();
+            enemy_Bullets();
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            Bullets();
         }
 
         private void GameForm_KeyDown(object sender, KeyEventArgs e)
