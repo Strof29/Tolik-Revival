@@ -55,7 +55,9 @@ namespace Tolik_Revival
             this.pictureBox19 = new System.Windows.Forms.PictureBox();
             this.pictureBox20 = new System.Windows.Forms.PictureBox();
             this.pictureBox21 = new System.Windows.Forms.PictureBox();
+
             this.Score = new System.Windows.Forms.Label();
+
             ((System.ComponentModel.ISupportInitialize)(this.ground)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -79,6 +81,7 @@ namespace Tolik_Revival
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox19)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox20)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox21)).BeginInit();
+
             this.SuspendLayout();
             // 
             // ground
@@ -351,13 +354,151 @@ namespace Tolik_Revival
             this.Score.TabIndex = 31;
             this.Score.Text = "Score: 0";
             // 
+            // enemy
+            // 
+            this.enemy.Image = global::Tolik_Revival.Properties.Resources.tolik_terr;
+            this.enemy.Location = new System.Drawing.Point(108, 50);
+            this.enemy.Name = "enemy";
+            this.enemy.Size = new System.Drawing.Size(22, 30);
+            this.enemy.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.enemy.TabIndex = 24;
+            this.enemy.TabStop = false;
+            this.enemy.Tag = "enemy";
+            // 
+            // pictureBox23
+            // 
+            this.pictureBox23.Image = global::Tolik_Revival.Properties.Resources.tolik_terr;
+            this.pictureBox23.Location = new System.Drawing.Point(136, 50);
+            this.pictureBox23.Name = "pictureBox23";
+            this.pictureBox23.Size = new System.Drawing.Size(22, 30);
+            this.pictureBox23.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox23.TabIndex = 25;
+            this.pictureBox23.TabStop = false;
+            this.pictureBox23.Tag = "enemy";
+            // 
+            // pictureBox24
+            // 
+            this.pictureBox24.Image = global::Tolik_Revival.Properties.Resources.tolik_terr;
+            this.pictureBox24.Location = new System.Drawing.Point(164, 50);
+            this.pictureBox24.Name = "pictureBox24";
+            this.pictureBox24.Size = new System.Drawing.Size(22, 30);
+            this.pictureBox24.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox24.TabIndex = 26;
+            this.pictureBox24.TabStop = false;
+            this.pictureBox24.Tag = "enemy";
+            // 
+            // pictureBox25
+            // 
+            this.pictureBox25.Image = global::Tolik_Revival.Properties.Resources.tolik_terr;
+            this.pictureBox25.Location = new System.Drawing.Point(192, 50);
+            this.pictureBox25.Name = "pictureBox25";
+            this.pictureBox25.Size = new System.Drawing.Size(22, 30);
+            this.pictureBox25.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox25.TabIndex = 27;
+            this.pictureBox25.TabStop = false;
+            this.pictureBox25.Tag = "enemy";
+            // 
+            // pictureBox26
+            // 
+            this.pictureBox26.Image = global::Tolik_Revival.Properties.Resources.tolik_terr;
+            this.pictureBox26.Location = new System.Drawing.Point(220, 50);
+            this.pictureBox26.Name = "pictureBox26";
+            this.pictureBox26.Size = new System.Drawing.Size(22, 30);
+            this.pictureBox26.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox26.TabIndex = 28;
+            this.pictureBox26.TabStop = false;
+            this.pictureBox26.Tag = "enemy";
+            // 
+            // pictureBox27
+            // 
+            this.pictureBox27.Image = global::Tolik_Revival.Properties.Resources.tolik_terr;
+            this.pictureBox27.Location = new System.Drawing.Point(220, 86);
+            this.pictureBox27.Name = "pictureBox27";
+            this.pictureBox27.Size = new System.Drawing.Size(22, 30);
+            this.pictureBox27.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox27.TabIndex = 33;
+            this.pictureBox27.TabStop = false;
+            this.pictureBox27.Tag = "enemy";
+            // 
+            // pictureBox28
+            // 
+            this.pictureBox28.Image = global::Tolik_Revival.Properties.Resources.tolik_terr;
+            this.pictureBox28.Location = new System.Drawing.Point(192, 86);
+            this.pictureBox28.Name = "pictureBox28";
+            this.pictureBox28.Size = new System.Drawing.Size(22, 30);
+            this.pictureBox28.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox28.TabIndex = 32;
+            this.pictureBox28.TabStop = false;
+            this.pictureBox28.Tag = "enemy";
+            // 
+            // pictureBox29
+            // 
+            this.pictureBox29.Image = global::Tolik_Revival.Properties.Resources.tolik_terr;
+            this.pictureBox29.Location = new System.Drawing.Point(164, 86);
+            this.pictureBox29.Name = "pictureBox29";
+            this.pictureBox29.Size = new System.Drawing.Size(22, 30);
+            this.pictureBox29.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox29.TabIndex = 31;
+            this.pictureBox29.TabStop = false;
+            this.pictureBox29.Tag = "enemy";
+            // 
+            // pictureBox30
+            // 
+            this.pictureBox30.Image = global::Tolik_Revival.Properties.Resources.tolik_terr;
+            this.pictureBox30.Location = new System.Drawing.Point(136, 86);
+            this.pictureBox30.Name = "pictureBox30";
+            this.pictureBox30.Size = new System.Drawing.Size(22, 30);
+            this.pictureBox30.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox30.TabIndex = 30;
+            this.pictureBox30.TabStop = false;
+            this.pictureBox30.Tag = "enemy";
+            // 
+            // pictureBox31
+            // 
+            this.pictureBox31.Image = global::Tolik_Revival.Properties.Resources.tolik_terr;
+            this.pictureBox31.Location = new System.Drawing.Point(108, 86);
+            this.pictureBox31.Name = "pictureBox31";
+            this.pictureBox31.Size = new System.Drawing.Size(22, 30);
+            this.pictureBox31.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox31.TabIndex = 29;
+            this.pictureBox31.TabStop = false;
+            this.pictureBox31.Tag = "enemy";
+            // 
+            // enemy_bullet
+            // 
+            this.enemy_bullet.Image = global::Tolik_Revival.Properties.Resources.enemy_bullet;
+            this.enemy_bullet.Location = new System.Drawing.Point(248, 50);
+            this.enemy_bullet.Name = "enemy_bullet";
+            this.enemy_bullet.Size = new System.Drawing.Size(23, 30);
+            this.enemy_bullet.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.enemy_bullet.TabIndex = 34;
+            this.enemy_bullet.TabStop = false;
+            // 
+            // timer2
+            // 
+            this.timer2.Enabled = true;
+            this.timer2.Interval = 1;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
+            // bullet
+            // 
+            this.bullet.Image = global::Tolik_Revival.Properties.Resources.bullet;
+            this.bullet.Location = new System.Drawing.Point(78, 577);
+            this.bullet.Name = "bullet";
+            this.bullet.Size = new System.Drawing.Size(8, 8);
+            this.bullet.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.bullet.TabIndex = 35;
+            this.bullet.TabStop = false;
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.ClientSize = new System.Drawing.Size(1182, 653);
+
             this.Controls.Add(this.Score);
+
             this.Controls.Add(this.pictureBox15);
             this.Controls.Add(this.pictureBox16);
             this.Controls.Add(this.pictureBox17);
@@ -410,6 +551,7 @@ namespace Tolik_Revival
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox19)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox20)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox21)).EndInit();
+
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -441,7 +583,9 @@ namespace Tolik_Revival
         private System.Windows.Forms.PictureBox pictureBox19;
         private System.Windows.Forms.PictureBox pictureBox20;
         private System.Windows.Forms.PictureBox pictureBox21;
+
         private System.Windows.Forms.Label Score;
+
     }
 }
 

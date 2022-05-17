@@ -12,8 +12,6 @@ namespace Tolik_Revival
 {
     public partial class GameForm : Form
     {
-        
-
 
         public GameForm()
         {
@@ -71,9 +69,11 @@ namespace Tolik_Revival
 
             foreach (Control x in this.Controls)
             {
+
             
                 int rnd_Top = 623 - rnd.Next(1, 4) * 150;
                 int rnd_Left = rnd.Next(1200, 3000);
+
 
                 if (x is PictureBox && x.Tag == "base")
                 {
@@ -88,6 +88,7 @@ namespace Tolik_Revival
 
                         if (x.Left < -200)
                         {
+
                             x.Top = rnd_Top;
                             x.Left = rnd_Left;
                             x.Width = rnd.Next(100, 300);
@@ -96,6 +97,7 @@ namespace Tolik_Revival
                             {
                                 CreatEnemy(rnd_Top, rnd_Left);
                             }
+
                         }
 
                     }
@@ -166,6 +168,12 @@ namespace Tolik_Revival
         {
             Player_move();
             Base_move();
+            enemy_Bullets();
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            Bullets();
         }
 
         private void GameForm_KeyDown(object sender, KeyEventArgs e)
