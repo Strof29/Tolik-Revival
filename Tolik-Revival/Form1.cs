@@ -12,31 +12,9 @@ namespace Tolik_Revival
 {
     public partial class GameForm : Form
     {
-        void Bullets()
-        {
-            PictureBox bullet1 = new PictureBox();
+        
 
-            bullet.Left += 20;
-            if (bullet.Left > player.Left + 400)
-            {
-                bullet.Left = player.Left;
-                bullet.Top = player.Top + 10;
-                bullet.Image = Properties.Resources.bullet;
-            }
-        }
 
-        void enemy_Bullets()
-        {
-            PictureBox bullet1 = new PictureBox();
-
-            enemy_bullet.Left += 10;
-            if (enemy_bullet.Left > enemy.Left - 400)
-            {
-                enemy_bullet.Left = enemy.Left;
-                enemy_bullet.Top = enemy.Top + 8;
-                enemy_bullet.Image = Properties.Resources.enemy_bullet;
-            }
-        }
         public GameForm()
         {
             InitializeComponent();
@@ -48,7 +26,39 @@ namespace Tolik_Revival
         int upCounter = 0;
         int jump = 5;
         int walkspeed = 20;
+        int score = 0;
+        bool direct = true;
+        int picCounter = 1;
         Random rnd = new Random();
+
+        void CreatBullet()
+        {
+            string tag = (direct)?"bulletR":"bulletL";
+
+            PictureBox bullet = new PictureBox
+            {
+                Size = new Size(8, 8),
+                Top = player.Top,
+                Left = player.Left,
+                Image = Properties.Resources.bullet,
+                Tag = tag
+
+            };
+            this.Controls.Add(bullet);
+        }
+
+        void CreatEnemy(int Top,int left)
+        {
+            PictureBox enemy1 = new PictureBox
+            {
+                Size = new Size(70, 70),
+                Top=Top-70,
+                Left=left,
+                Image = Properties.Resources.tolik_terr,
+                Tag="Enemy"
+            };
+            this.Controls.Add(enemy1);
+        }
 
         void Base_move()
         {
@@ -57,30 +67,13 @@ namespace Tolik_Revival
                 player.Top = ground.Top - player.Height;
                 force = 0;
             }
+            
 
             foreach (Control x in this.Controls)
             {
+            
                 int rnd_Top = 623 - rnd.Next(1, 4) * 150;
                 int rnd_Left = rnd.Next(1200, 3000);
-                int rnd_w = rnd.Next(100, 300);
-                if (x is PictureBox && x.Tag == "enemy")
-                {
-                    if (right == true && player.Left > 800)
-                    {
-                        x.Left -= 15;
-
-                        if (x.Left < -200)
-                        {
-                            x.Top = rnd_Top - 70;
-                            x.Left = rnd_Left;
-                            x.Width = 70;
-                            x.Height = 70;
-
-                        }
-
-                    }
-
-                }
 
                 if (x is PictureBox && x.Tag == "base")
                 {
@@ -95,12 +88,57 @@ namespace Tolik_Revival
 
                         if (x.Left < -200)
                         {
-
                             x.Top = rnd_Top;
                             x.Left = rnd_Left;
-                            x.Width = rnd_w;
+                            x.Width = rnd.Next(100, 300);
+
+                            if (rnd.Next(0, 10)>5)
+                            {
+                                CreatEnemy(rnd_Top, rnd_Left);
+                            }
                         }
 
+                    }
+                }
+                if (x is PictureBox && x.Tag == "Enemy")
+                {
+                    if (right == true && player.Left > 800)
+                    {
+                        x.Left -= 15;
+                    }
+                    if (x.Left < -100)
+                    {
+                        x.Dispose();
+                    }
+                }
+                if (x is PictureBox && (x.Tag == "bulletR" || x.Tag=="bulletL"))
+                {
+                    if (x.Left>0 && x.Left<1200)
+                    {
+                        if (x.Tag == "bulletR") x.Left += 30;
+
+                        if (x.Tag == "bulletL")  x.Left -= 30;
+
+                    }
+                    else
+                    {
+                        x.Dispose();
+                    }
+
+                    foreach (Control y in this.Controls)
+                    {
+                        if (y is PictureBox && y.Tag == "Enemy")
+                        {
+                            if (x.Bounds.IntersectsWith(y.Bounds))
+                            {
+                                x.Dispose();
+                                y.Dispose();
+                                score += 5;
+                                Score.Text = "Score: " + score.ToString();
+
+                            }
+
+                        }
                     }
                 }
             }
@@ -116,7 +154,7 @@ namespace Tolik_Revival
                 if (player.Top > 50)
                 {
                     player.Top -= speed;
-                    force = 30;
+                    force = 50;
                 }
                 upCounter++;
             }
@@ -128,12 +166,6 @@ namespace Tolik_Revival
         {
             Player_move();
             Base_move();
-            enemy_Bullets();
-        }
-
-        private void timer2_Tick(object sender, EventArgs e)
-        {
-            Bullets();
         }
 
         private void GameForm_KeyDown(object sender, KeyEventArgs e)
@@ -141,12 +173,21 @@ namespace Tolik_Revival
             switch (e.KeyCode)
             {
                 case Keys.Right:
-                    player.Image = Properties.Resources.Tolik;
+                    
                     right = true;
+                    direct = true;
+                    if (picCounter < 0) picCounter = 0;
+                    picCounter++;
+                    if (picCounter==1) player.Image = Properties.Resources.Tolik;
+
                     break;
                 case Keys.Left:
                     left = true;
                     player.Image = Properties.Resources.TolikBack;
+                    direct = false;
+                    if (picCounter > 0) picCounter = 0;
+                    picCounter--;
+                    if (picCounter == -1) player.Image = Properties.Resources.TolikBack;
                     break;
                 case Keys.Up:
                     up = true;
@@ -167,6 +208,9 @@ namespace Tolik_Revival
                 case Keys.Up:
                     up = false;
                     upCounter = 0;
+                    break;
+                case Keys.Space:
+                    CreatBullet();
                     break;
             }
         }
