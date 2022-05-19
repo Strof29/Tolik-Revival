@@ -22,99 +22,63 @@ namespace Tolik_Revival
         bool direct = true;
 
         int attractionForce = 20;
-
-        int upCounter = 0;
-        int upMax = 5;
-        int upSpeed = 20;
-
-        int platformCounter = 0;
-        int platformMax = 20;
-
-        int score = 0;
+        int groundCounter = 0;
         int walkspeed = 20;
 
-        int enemyProbability = 50;
+        (int counter, int max, int speed) upParam = (0, 5, 20);
+        (int counter, int max) platformParam = (0, 20);
+        (int probability, int damage) enemyParam = (50, 5);
 
+        int score = 0;
         int healthPoints = 100;
+        int specialBullet = 0;
 
 
         Random rnd = new Random();
 
+        Gun Gun = new Gun();
+        Enemy Enemy = new Enemy();
+        Platform Platform = new Platform();
+        SpecialBox SpecialBox = new SpecialBox();
 
-
-        void NewBullet(Control x, bool directF = false)
+        void Shoot(Control x, bool directF = false) 
         {
-            string tag = (directF) ? "0|30" : "0|-30";
-            int positionComp = (directF) ? 40 : -40;
-
-            PictureBox bullet = new PictureBox
+            if (specialBullet==0)
             {
-                Size = new Size(8, 8),
-                Top = x.Top + 30,
-                Left = x.Left + positionComp,
-                Image = Properties.Resources.bullet,
-                Tag = tag,
-                Name = "bullet" + x.Name
-            };
-            this.Controls.Add(bullet);
-        }
-
-        void NewEnemy(int[] coord)
-        {
-            if (rnd.Next(0, 100) > enemyProbability)
-            {
-                PictureBox enemy = new PictureBox
-                {
-                    Size = new Size(70, 70),
-                    Top = coord[0] - 70,
-                    Left = coord[1],
-                    Image = Properties.Resources.tolik_terr,
-                    Tag = "",
-                    Name = "enemy",
-                    SizeMode = PictureBoxSizeMode.CenterImage
-                };
-                this.Controls.Add(enemy);
+                player.Tag = "";
             }
-        }
-
-        void NewPlatform(int[] coord)
-        {
-            PictureBox platform = new PictureBox
+            else if (x.Name==player.Name)
             {
-                Size = new Size(rnd.Next(100, 300), 30),
-                Top = coord[0],
-                Left = coord[1],
-                Image = Properties.Resources.ground,
-                Tag = "base",
-                Name = "platform",
-            };
-            this.Controls.Add(platform);
+                specialBullet--;
+                StatusUpdate();
+            }
+            this.Controls.AddRange(Gun.Shoot(x, directF)); 
         }
 
         void CreateElements()
         {
-            if (platformCounter < platformMax)
+            if (platformParam.counter < platformParam.max)
             {
-                int[] coord = { 623 - rnd.Next(1, 4) * 150, rnd.Next(1200, 3000) };
-                NewPlatform(coord);
-                NewEnemy(coord);
-                platformCounter++;
+                (int top, int left) coord = ( 623 - rnd.Next(1, 4) * 150, rnd.Next(1200, 3000));
+                this.Controls.AddRange(new Control[] { Platform.CreatePlatform(coord), (rnd.Next(0, 100) < enemyParam.probability) ? Enemy.CreateEnemy(coord) : null });
+                platformParam.counter++;
             }
         }
 
 
         void MovePlayer()
         {
+            if (player.Top > 800) GameOver();
             if (right == true && player.Left < 900) player.Left += walkspeed;
             if (left == true && player.Left > 20) player.Left -= walkspeed;
 
-            if (up == true && upCounter < upMax)
+            if (up == true && upParam.counter < upParam.max)
             {
-                player.Top -= upSpeed;
+                player.Top -= upParam.speed;
                 attractionForce = 30;
-                upCounter++;
+                upParam.counter++;
             }
-            if (upCounter == upMax) up = false;
+            if (upParam.counter == upParam.max) up = false;
             if (up == false) player.Top += attractionForce;
         }
 
@@ -123,7 +87,7 @@ namespace Tolik_Revival
             if (player.Bounds.IntersectsWith(x.Bounds))
             {
                 player.Top = x.Top - player.Height;
-                upCounter = 0;
+                upParam.counter = 0;
             }
 
             if (right == true && player.Left > 800)
@@ -131,11 +95,24 @@ namespace Tolik_Revival
                 x.Left -= walkspeed;
             }
 
-            if (x.Left < -200)
+            if (x.Left < -200 && x.Tag.ToString() == "base")
             {
                 x.Dispose();
-                platformCounter--;
+                platformParam.counter--;
             }
+
+            if ((x.Left + x.Width) < 100 && x.Tag.ToString() == "ground")
+            {
+                x.Dispose();
+                groundCounter--;
+            }
+
+            if (groundCounter < 2 && (x.Left+x.Width) == 1300)
+            {
+                this.Controls.Add(Platform.CreateGround());
+                groundCounter++;
+            }
+
         }
 
         void MoveEnemy(Control x)
@@ -153,13 +130,10 @@ namespace Tolik_Revival
                 DamagePlayer(x);
                 x.Dispose();
                 score += 5;
-                Score.Text = "Score: " + score.ToString();
+                StatusUpdate();
             }
 
-            if (x.Top == player.Top)
-            {
-                (x as PictureBox).Image = !(x.Left < player.Left) ? Properties.Resources.tolik_terr : Properties.Resources.Tolik;
-            }
+            (x as PictureBox).Image = !(x.Left < player.Left) ? Properties.Resources.tolik_terr : Properties.Resources.TolikTerrBack;
 
         }
 
@@ -181,6 +155,37 @@ namespace Tolik_Revival
                 x.Dispose();
             }
             if (x.Name == "bulletplayer") KillEnemy(x);
+
+        }
+
+        void MoveSpecialBox(Control x)
+        {
+            if (right == true && player.Left > 800)
+            {
+                x.Left -= walkspeed;
+            }
+            if (x.Left < -100)
+            {
+                x.Dispose();
+            }
+            if (x.Bounds.IntersectsWith(player.Bounds))
+            {
+                if (x.Tag.ToString() == "HealthBox")
+                {
+                    healthPoints += (healthPoints + 30 > 100) ? 100-healthPoints : 30;
+
+                    StatusUpdate();
+                    x.Dispose();
+                }
+
+                if (x.Tag.ToString() == "BigBulletBox" || x.Tag.ToString() == "TripleGunBox")
+                {
+                    specialBullet += 5;
+                    StatusUpdate();
+                    player.Tag = x.Tag;
+                    x.Dispose();
+                }
+            }
         }
 
 
@@ -191,11 +196,17 @@ namespace Tolik_Revival
                 if (y is PictureBox && y.Name == "enemy")
                 {
                     if (x.Bounds.IntersectsWith(y.Bounds))
-                    {
-                        x.Dispose();
+                    {         
+                        if (rnd.Next(0, 100) > enemyParam.probability)
+                        {
+                            this.Controls.Add(SpecialBox.CreateSpecialBox(y));
+                        }
+
+                        if (!(x.Size == new Size(70, 70))) x.Dispose();
+
                         y.Dispose();
                         score += 5;
-                        Score.Text = "Score: " + score.ToString();
+                        StatusUpdate();
                     }
                 }
             }
@@ -203,10 +214,11 @@ namespace Tolik_Revival
 
         void DamagePlayer(Control x)
         {
-            if (x.Name == "enemy") healthPoints -= 10;
-            if (x.Name == "bulletenemy") healthPoints -= 5;
+            if (x.Name == "enemy") healthPoints -= enemyParam.damage* 2;
+            if (x.Name == "bulletenemy") healthPoints -= enemyParam.damage;
 
-            HP.Text = "HP: " + healthPoints;
+            StatusUpdate();
+
             if (healthPoints <= 0)
             {
                 GameOver();
@@ -237,10 +249,10 @@ namespace Tolik_Revival
         {
             foreach (Control x in this.Controls)
             {
-                if (x is PictureBox && x.Name == "enemy" && x.Top == player.Top && x.Left < 1200)
+                if (x is PictureBox && x.Name == "enemy" && x.Top == player.Top && x.Left < 1130)
                 {
                     bool enemyDirect = !(player.Left < x.Left);
-                    NewBullet(x, enemyDirect);
+                    Shoot(x, enemyDirect);
                 }
             }
         }
@@ -255,8 +267,24 @@ namespace Tolik_Revival
                     if (x.Name == "platform") MovePlatform(x);
                     if (x.Name == "enemy") MoveEnemy(x);
                     if (x.Name == "bulletplayer" || x.Name == "bulletenemy") MoveBullet(x);
+                    if (x.Name == "specialbox") MoveSpecialBox(x);
                 }
             }
+        }
+
+        void StatusUpdate()
+        {
+            SB.Text = "Special bullet: " + specialBullet;
+            Score.Text = "Score: " + score;
+            HP.Text = "HP: " + healthPoints;
+            DifficultyLevel();
+        }
+
+        void DifficultyLevel()
+        {
+            enemyParam.damage = 5 + (score / 100);
+            enemyParam.probability = 50 + (score / 100);
+            if (timer2.Interval > 100) timer2.Interval = 1000 - (score / 10);
         }
 
 
@@ -306,7 +334,7 @@ namespace Tolik_Revival
                     up = false;
                     break;
                 case Keys.Space:
-                    NewBullet(player, direct);
+                    Shoot(player, direct);
                     break;
             }
         }

@@ -63,6 +63,26 @@ namespace Tolik_Revival.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BigBullet {
+            get {
+                object obj = ResourceManager.GetObject("BigBullet", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BigBulletBox {
+            get {
+                object obj = ResourceManager.GetObject("BigBulletBox", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap bullet {
             get {
                 object obj = ResourceManager.GetObject("bullet", resourceCulture);
@@ -86,6 +106,16 @@ namespace Tolik_Revival.Properties {
         internal static System.Drawing.Bitmap ground {
             get {
                 object obj = ResourceManager.GetObject("ground", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap HealthBox {
+            get {
+                object obj = ResourceManager.GetObject("HealthBox", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -126,6 +156,26 @@ namespace Tolik_Revival.Properties {
         internal static System.Drawing.Bitmap TolikJump {
             get {
                 object obj = ResourceManager.GetObject("TolikJump", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TolikTerrBack {
+            get {
+                object obj = ResourceManager.GetObject("TolikTerrBack", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TripleGunBox {
+            get {
+                object obj = ResourceManager.GetObject("TripleGunBox", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
