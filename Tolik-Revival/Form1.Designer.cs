@@ -37,17 +37,17 @@ namespace Tolik_Revival
             this.Score = new System.Windows.Forms.Label();
             this.HP = new System.Windows.Forms.Label();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.SB = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.platform)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player)).BeginInit();
             this.SuspendLayout();
             // 
             // platform
             // 
-            this.platform.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.platform.Image = global::Tolik_Revival.Properties.Resources.ground;
-            this.platform.Location = new System.Drawing.Point(0, 623);
+            this.platform.Location = new System.Drawing.Point(0, 621);
             this.platform.Name = "platform";
-            this.platform.Size = new System.Drawing.Size(1182, 30);
+            this.platform.Size = new System.Drawing.Size(1500, 30);
             this.platform.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.platform.TabIndex = 0;
             this.platform.TabStop = false;
@@ -56,12 +56,13 @@ namespace Tolik_Revival
             // player
             // 
             this.player.Image = global::Tolik_Revival.Properties.Resources.Tolik;
-            this.player.Location = new System.Drawing.Point(12, 547);
+            this.player.Location = new System.Drawing.Point(141, 518);
             this.player.Name = "player";
             this.player.Size = new System.Drawing.Size(70, 70);
             this.player.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.player.TabIndex = 23;
             this.player.TabStop = false;
+            this.player.Tag = "";
             // 
             // timer1
             // 
@@ -74,7 +75,7 @@ namespace Tolik_Revival
             this.Score.AutoSize = true;
             this.Score.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.Score.ForeColor = System.Drawing.Color.Red;
-            this.Score.Location = new System.Drawing.Point(484, 9);
+            this.Score.Location = new System.Drawing.Point(465, 9);
             this.Score.Name = "Score";
             this.Score.Size = new System.Drawing.Size(151, 39);
             this.Score.TabIndex = 31;
@@ -85,7 +86,7 @@ namespace Tolik_Revival
             this.HP.AutoSize = true;
             this.HP.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.HP.ForeColor = System.Drawing.Color.Red;
-            this.HP.Location = new System.Drawing.Point(31, 9);
+            this.HP.Location = new System.Drawing.Point(12, 9);
             this.HP.Name = "HP";
             this.HP.Size = new System.Drawing.Size(147, 39);
             this.HP.TabIndex = 32;
@@ -97,13 +98,25 @@ namespace Tolik_Revival
             this.timer2.Interval = 1000;
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
+            // SB
+            // 
+            this.SB.AutoSize = true;
+            this.SB.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.SB.ForeColor = System.Drawing.Color.Red;
+            this.SB.Location = new System.Drawing.Point(857, 9);
+            this.SB.Name = "SB";
+            this.SB.Size = new System.Drawing.Size(275, 39);
+            this.SB.TabIndex = 33;
+            this.SB.Text = "Special bullet: 0";
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.ClientSize = new System.Drawing.Size(1182, 653);
+            this.ClientSize = new System.Drawing.Size(1182, 753);
+            this.Controls.Add(this.SB);
             this.Controls.Add(this.HP);
             this.Controls.Add(this.Score);
             this.Controls.Add(this.player);
@@ -130,6 +143,7 @@ namespace Tolik_Revival
         private System.Windows.Forms.Label Score;
         private System.Windows.Forms.Label HP;
         private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.Label SB;
     }
 }
 
