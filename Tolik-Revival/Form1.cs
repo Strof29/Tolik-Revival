@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace Tolik_Revival
 {
@@ -34,22 +35,26 @@ namespace Tolik_Revival
 
         int enemyProbability = 50;
 
+        int healthPoints = 100;
+
+
         Random rnd = new Random();
 
 
 
-        void NewBullet()
+        void NewBullet(Control x, bool directF = false)
         {
-            string tag = (direct) ? "0|30" : "0|-30";
+            string tag = (directF) ? "0|30" : "0|-30";
+            int positionComp = (directF) ? 40 : -40;
 
             PictureBox bullet = new PictureBox
             {
                 Size = new Size(8, 8),
-                Top = player.Top,
-                Left = player.Left,
+                Top = x.Top + 30,
+                Left = x.Left + positionComp,
                 Image = Properties.Resources.bullet,
                 Tag = tag,
-                Name = "bullet"
+                Name = "bullet" + x.Name
             };
             this.Controls.Add(bullet);
         }
@@ -106,7 +111,7 @@ namespace Tolik_Revival
             if (up == true && upCounter < upMax)
             {
                 player.Top -= upSpeed;
-                attractionForce = 50;
+                attractionForce = 30;
                 upCounter++;
             }
             if (upCounter == upMax) up = false;
@@ -143,6 +148,19 @@ namespace Tolik_Revival
             {
                 x.Dispose();
             }
+            if (x.Bounds.IntersectsWith(player.Bounds))
+            {
+                DamagePlayer(x);
+                x.Dispose();
+                score += 5;
+                Score.Text = "Score: " + score.ToString();
+            }
+
+            if (x.Top == player.Top)
+            {
+                (x as PictureBox).Image = !(x.Left < player.Left) ? Properties.Resources.tolik_terr : Properties.Resources.Tolik;
+            }
+
         }
 
         void MoveBullet(Control x)
@@ -157,9 +175,12 @@ namespace Tolik_Revival
             {
                 x.Dispose();
             }
-
-            KillEnemy(x);
-
+            if (x.Bounds.IntersectsWith(player.Bounds) && (x.Name == "bulletenemy"))
+            {
+                DamagePlayer(x);
+                x.Dispose();
+            }
+            if (x.Name == "bulletplayer") KillEnemy(x);
         }
 
 
@@ -180,6 +201,50 @@ namespace Tolik_Revival
             }
         }
 
+        void DamagePlayer(Control x)
+        {
+            if (x.Name == "enemy") healthPoints -= 10;
+            if (x.Name == "bulletenemy") healthPoints -= 5;
+
+            HP.Text = "HP: " + healthPoints;
+            if (healthPoints <= 0)
+            {
+                GameOver();
+            }
+        }
+
+        void GameOver()
+        {
+            this.Controls.Clear();
+
+            string text = "GAME OVER\nYOUR SCORE: " + score;
+
+            Label gameover = new Label
+            {
+                Text = text,
+                Font = new Font("Unispace", 30, FontStyle.Bold),
+                ForeColor = Color.Red,
+                AutoSize = false,
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleCenter
+
+            };
+
+            this.Controls.Add(gameover);
+        }
+
+        void EnemyShooting()
+        {
+            foreach (Control x in this.Controls)
+            {
+                if (x is PictureBox && x.Name == "enemy" && x.Top == player.Top && x.Left < 1200)
+                {
+                    bool enemyDirect = !(player.Left < x.Left);
+                    NewBullet(x, enemyDirect);
+                }
+            }
+        }
+
         void ElementProcessing()
         {
             CreateElements();
@@ -189,7 +254,7 @@ namespace Tolik_Revival
                 {
                     if (x.Name == "platform") MovePlatform(x);
                     if (x.Name == "enemy") MoveEnemy(x);
-                    if (x.Name == "bullet") MoveBullet(x);
+                    if (x.Name == "bulletplayer" || x.Name == "bulletenemy") MoveBullet(x);
                 }
             }
         }
@@ -199,6 +264,11 @@ namespace Tolik_Revival
         {
             MovePlayer();
             ElementProcessing();
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            EnemyShooting();
         }
 
         private void GameForm_KeyDown(object sender, KeyEventArgs e)
@@ -236,7 +306,7 @@ namespace Tolik_Revival
                     up = false;
                     break;
                 case Keys.Space:
-                    NewBullet();
+                    NewBullet(player, direct);
                     break;
             }
         }
