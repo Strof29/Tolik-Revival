@@ -109,7 +109,8 @@ namespace Tolik_Revival
 
             if (groundCounter < 2 && (x.Left+x.Width) == 1300)
             {
-                this.Controls.Add(Platform.CreateGround());
+                this.Controls.AddRange(new Control[] { Platform.CreateGround(), Enemy.CreateEnemy((623, 2000)) });
+                
                 groundCounter++;
             }
 
@@ -168,24 +169,7 @@ namespace Tolik_Revival
             {
                 x.Dispose();
             }
-            if (x.Bounds.IntersectsWith(player.Bounds))
-            {
-                if (x.Tag.ToString() == "HealthBox")
-                {
-                    healthPoints += (healthPoints + 30 > 100) ? 100-healthPoints : 30;
-
-                    StatusUpdate();
-                    x.Dispose();
-                }
-
-                if (x.Tag.ToString() == "BigBulletBox" || x.Tag.ToString() == "TripleGunBox")
-                {
-                    specialBullet += 5;
-                    StatusUpdate();
-                    player.Tag = x.Tag;
-                    x.Dispose();
-                }
-            }
+            if (x.Bounds.IntersectsWith(player.Bounds)) TakeSpecialBox(x);
         }
 
 
@@ -272,6 +256,7 @@ namespace Tolik_Revival
             }
         }
 
+
         void StatusUpdate()
         {
             SB.Text = "Special bullet: " + specialBullet;
@@ -284,7 +269,26 @@ namespace Tolik_Revival
         {
             enemyParam.damage = 5 + (score / 100);
             enemyParam.probability = 50 + (score / 100);
-            if (timer2.Interval > 100) timer2.Interval = 1000 - (score / 10);
+            if (timer2.Interval > 100) timer2.Interval = 1000 - (score / 2);
+        }
+
+        void TakeSpecialBox(Control x)
+        {
+            if (x.Tag.ToString() == "HealthBox")
+            {
+                healthPoints += (healthPoints + 30 > 100) ? 100 - healthPoints : 30;
+
+                StatusUpdate();
+                x.Dispose();
+            }
+
+            if (x.Tag.ToString() == "BigBulletBox" || x.Tag.ToString() == "TripleGunBox")
+            {
+                specialBullet += 3;
+                StatusUpdate();
+                player.Tag = x.Tag;
+                x.Dispose();
+            }
         }
 
 
